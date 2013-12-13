@@ -21,6 +21,8 @@
 		5DB97CF5185AF69900347A53 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB97CD7185AF69900347A53 /* UIKit.framework */; };
 		5DB97CFD185AF69900347A53 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5DB97CFB185AF69900347A53 /* InfoPlist.strings */; };
 		5DB97CFF185AF69900347A53 /* LighthouseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB97CFE185AF69900347A53 /* LighthouseTests.m */; };
+		5DB97D09185AF6AA00347A53 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB97D08185AF6AA00347A53 /* CoreBluetooth.framework */; };
+		5DB97D0B185AF6B000347A53 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB97D0A185AF6B000347A53 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,8 @@
 		5DB97CFA185AF69900347A53 /* LighthouseTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LighthouseTests-Info.plist"; sourceTree = "<group>"; };
 		5DB97CFC185AF69900347A53 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5DB97CFE185AF69900347A53 /* LighthouseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LighthouseTests.m; sourceTree = "<group>"; };
+		5DB97D08185AF6AA00347A53 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		5DB97D0A185AF6B000347A53 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +64,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5DB97D0B185AF6B000347A53 /* CoreLocation.framework in Frameworks */,
+				5DB97D09185AF6AA00347A53 /* CoreBluetooth.framework in Frameworks */,
 				5DB97CD6185AF69900347A53 /* CoreGraphics.framework in Frameworks */,
 				5DB97CD8185AF69900347A53 /* UIKit.framework in Frameworks */,
 				5DB97CD4185AF69900347A53 /* Foundation.framework in Frameworks */,
@@ -101,6 +107,8 @@
 		5DB97CD2185AF69900347A53 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5DB97D0A185AF6B000347A53 /* CoreLocation.framework */,
+				5DB97D08185AF6AA00347A53 /* CoreBluetooth.framework */,
 				5DB97CD3185AF69900347A53 /* Foundation.framework */,
 				5DB97CD5185AF69900347A53 /* CoreGraphics.framework */,
 				5DB97CD7185AF69900347A53 /* UIKit.framework */,
