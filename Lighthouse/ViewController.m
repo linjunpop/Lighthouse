@@ -7,15 +7,21 @@
 //
 
 #import <CoreLocation/CoreLocation.h>
-#import <CoreBluetooth/CoreBluetooth.h>
+
 #import "ViewController.h"
 
 @interface ViewController ()
 
-@property (weak, nonatomic) IBOutlet UILabel *label;
+
+@property (weak, nonatomic) IBOutlet UILabel *beaconLabel;
+@property (weak, nonatomic) IBOutlet UILabel *proximityLabel;
+@property (weak, nonatomic) IBOutlet UILabel *majorLabel;
+@property (weak, nonatomic) IBOutlet UILabel *minorLabel;
+@property (weak, nonatomic) IBOutlet UILabel *accuracyLabel;
+@property (weak, nonatomic) IBOutlet UILabel *distanceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *rssiLabel;
+
 @property (strong, nonatomic) CLBeaconRegion *beaconRegion;
-@property (strong, nonatomic) NSDictionary *beaconPeripheralData;
-@property (strong, nonatomic) CBPeripheralManager *peripheralManager;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 
 @end
@@ -29,7 +35,6 @@
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     [self initRegion];
-	// Do any additional setup after loading the view, typically from a nib.
 }
 
 - (void)didReceiveMemoryWarning
@@ -40,17 +45,20 @@
 
 - (void)initRegion {
     NSUUID *proximityUUID = [[NSUUID alloc] initWithUUIDString:@"D37112AC-DFAA-546C-8EF3-C94AA33845B5"];
-    self.beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:proximityUUID identifier:@"com.devfright.myRegion"];
+    self.beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:proximityUUID identifier:@"com.sumiapp.Lighthouse"];
     [self.locationManager startMonitoringForRegion:self.beaconRegion];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
     [self.locationManager startRangingBeaconsInRegion:self.beaconRegion];
-    [self notify];
+    [self.beaconLabel setText:@"Found"];
+    [self notifyWithMessage:@"Enter Region"];
 }
 
 -(void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region {
     [self.locationManager stopRangingBeaconsInRegion:self.beaconRegion];
+    [self.beaconLabel setText:@"Exited"];
+    [self notifyWithMessage:@"Exit Region"];
 }
 
 - (void) locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region
@@ -58,31 +66,31 @@
     [self.locationManager requestStateForRegion:self.beaconRegion];
 }
 
-- (void) locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region
-{
-    switch (state) {
-        case CLRegionStateInside:
-            [self.locationManager startRangingBeaconsInRegion:self.beaconRegion];
-            [self.label setText:@"Inside"];
-            break;
-        case CLRegionStateOutside:
-            [self.label setText:@"Outside"];
-        case CLRegionStateUnknown:
-            [self.label setText:@"Unknown"];
-        default:
-            // stop ranging beacons, etc
-            NSLog(@"Region unknown");
-    }
-}
-
 - (void) locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region
 {
-    if ([beacons count] > 0) {
-        // Handle your found beacons here
+    if ([region.identifier isEqual:@"com.sumiapp.Lighthouse"]) {
+        CLBeacon *beacon = [[CLBeacon alloc] init];
+        beacon = [beacons lastObject];
+
+        [self.beaconLabel setText:@"YES"];
+        [self.proximityLabel setText:beacon.proximityUUID.UUIDString];
+        [self.majorLabel setText:[NSString stringWithFormat:@"%@", beacon.major] ];
+        [self.minorLabel setText:[NSString stringWithFormat:@"%@", beacon.minor]];
+        [self.accuracyLabel setText:[NSString stringWithFormat:@"%f", beacon.accuracy]];
+        if (beacon.proximity == CLProximityUnknown) {
+            [self.distanceLabel setText:@"Unknown Proximity"];
+        } else if (beacon.proximity == CLProximityImmediate) {
+            [self.distanceLabel setText:@"Immediate"];
+        } else if (beacon.proximity == CLProximityNear) {
+            [self.distanceLabel setText:@"Near"];
+        } else if (beacon.proximity == CLProximityFar) {
+            [self.distanceLabel setText:@"Far"];
+        }
+        [self.rssiLabel setText:[NSString stringWithFormat:@"%li", (long)beacon.rssi]];
     }
 }
 
-- (void) notify
+- (void) notifyWithMessage:(NSString *)message
 {
     UILocalNotification *notification = [[UILocalNotification alloc] init];
 
@@ -93,7 +101,7 @@
         notification.timeZone = [NSTimeZone defaultTimeZone];
         notification.repeatInterval = kCFCalendarUnitDay;
         notification.soundName = UILocalNotificationDefaultSoundName;
-        notification.alertBody = @"Enter Region, Welcome";
+        notification.alertBody = message;
         notification.applicationIconBadgeNumber += 1;
         NSDictionary *info = [NSDictionary dictionaryWithObject:@"name" forKey:@"key"];
         notification.userInfo = info;

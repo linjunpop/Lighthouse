@@ -468,6 +468,7 @@
 				5DB97D04185AF69900347A53 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5DB97D05185AF69900347A53 /* Build configuration list for PBXNativeTarget "LighthouseTests" */ = {
 			isa = XCConfigurationList;
@@ -476,6 +477,7 @@
 				5DB97D07185AF69900347A53 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
