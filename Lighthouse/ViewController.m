@@ -44,7 +44,7 @@
 }
 
 - (void)initRegion {
-    NSUUID *proximityUUID = [[NSUUID alloc] initWithUUIDString:@"D37112AC-DFAA-546C-8EF3-C94AA33845B5"];
+    NSUUID *proximityUUID = [[NSUUID alloc] initWithUUIDString:@"D57092AC-DFAA-446C-8EF3-C81AA22815B5"];
     self.beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:proximityUUID identifier:@"com.sumiapp.Lighthouse"];
     [self.locationManager startMonitoringForRegion:self.beaconRegion];
 }
@@ -94,10 +94,8 @@
 {
     UILocalNotification *notification = [[UILocalNotification alloc] init];
 
-    // 1 sec later
-    NSDate *pushDate = [NSDate dateWithTimeIntervalSinceNow:1];
     if (notification != nil) {
-        notification.fireDate = pushDate;
+        notification.fireDate = [NSDate dateWithTimeIntervalSinceNow:2];
         notification.timeZone = [NSTimeZone defaultTimeZone];
         notification.repeatInterval = kCFCalendarUnitDay;
         notification.soundName = UILocalNotificationDefaultSoundName;
